@@ -6,6 +6,7 @@ import nftImage from "../../images/nftImage.jpg";
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
+import Countdown from "./CountdownTimer";
 
 // https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems
 
@@ -22,6 +23,7 @@ const nullMessage = document.querySelector('.de_countdown')
 
 const NewItems = () => {
   const [data, setData] = useState([])
+  // const [time, setTime] = useState(Date.now());
   const options = {
     responsive: {
       0: {
@@ -48,58 +50,60 @@ const NewItems = () => {
     fetchNewItems();
   }, []);
 
-  function countdownTimer(expiryDate) {
-    if (expiryDate === null) {
-      return("")
-    }
-    else {  
-      let millisLeft = expiryDate - Date.now();
-      // console.log(millisLeft)
-      
-      // console.log(hoursLeft)
-      if (millisLeft < 0) {
-        millisLeft = 0;
-      }
-      if (millisLeft === null) {
-        millisLeft = 0;
-      }
-      
-      let secondsLeft = millisLeft / 1000
-      let minutesLeft = secondsLeft / 60
-      let hoursLeft = minutesLeft / 60
+  // const {time, setTime} = useState(Date.now());
 
-      let secondsText = Math.floor(secondsLeft) % 60;
-      let minutesText = Math.floor(minutesLeft) % 60;
-      let hoursText = Math.floor(hoursLeft);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setTime(Date.now());
+  //   }, 1000);
 
-      // if (hoursText.toString().length < 2) {
-      //   hoursText = hoursText.toString().padStart(2, '0')
-      // }
-      if (minutesText.toString().length < 2) {
-        minutesText = minutesText.toString().padStart(2, '0')
-      }
-      if (secondsText.toString().length < 2) {
-        secondsText = secondsText.toString().padStart(2, '0')
-      }
-      // console.log(hoursText)
-      // console.log(minutesText)
-      // console.log(secondsText)
+  //   return () => clearInterval(interval);
+  // }, []);
+
+  // function countdownTimer(expiryDate) {
+  //   if (expiryDate === null) {
+  //     return("")
+  //   }
+  //   else {  
+  //     let millisLeft = expiryDate - time;
+  //     // console.log(millisLeft)
       
-      // countdownSeconds.innerHTML = secondsText
-      // countdownMinutes.innerHTML = minutesText
-      // countdownHours.innerHTML =  hoursText
-      countdown[0] = hoursText
-      countdown[1] = "h"
-      countdown[2] = " "
-      countdown[3] = minutesText
-      countdown[4] = "m"
-      countdown[5] = " "
-      countdown[6] = secondsText
-      countdown[7] = "s"
+  //     // console.log(hoursLeft)
+  //     if (millisLeft < 0) {
+  //       millisLeft = 0;
+  //     }
+  //     if (millisLeft === null) {
+  //       millisLeft = 0;
+  //     }
       
-      return(countdown)
-    }
-  }
+  //     let secondsLeft = millisLeft / 1000
+  //     let minutesLeft = secondsLeft / 60
+  //     let hoursLeft = minutesLeft / 60
+
+  //     let secondsText = Math.floor(secondsLeft) % 60;
+  //     let minutesText = Math.floor(minutesLeft) % 60;
+  //     let hoursText = Math.floor(hoursLeft);
+
+  //     // if (hoursText.toString().length < 2) {
+  //     //   hoursText = hoursText.toString().padStart(2, '0')
+  //     // }
+  //     if (minutesText.toString().length < 2) {
+  //       minutesText = minutesText.toString().padStart(2, '0')
+  //     }
+  //     if (secondsText.toString().length < 2) {
+  //       secondsText = secondsText.toString().padStart(2, '0')
+  //     }
+  //     // console.log(hoursText)
+  //     // console.log(minutesText)
+  //     // console.log(secondsText)
+      
+  //     // countdownSeconds.innerHTML = secondsText
+  //     // countdownMinutes.innerHTML = minutesText
+  //     // countdownHours.innerHTML =  hoursText
+      
+  //     return(`${hoursText}h ${minutesText}m ${secondsText}s`)
+  //   }
+  // }
 
   return (
     <section id="section-items" className="no-bottom">
@@ -128,10 +132,9 @@ const NewItems = () => {
                       </Link>
                     </div>
                     <div className="de_countdown">
-                      {countdownTimer(nft.expiryDate)}
-                      <div className="countdown__hours"></div>
-                      <div className="countdown__minutes"></div>
-                      <div className="countdown__seconds"></div>
+                      {nft.expiryDate && (
+                        <Countdown expiryDate={nft.expiryDate} />
+                      )}
                     </div>
 
                     <div className="nft__item_wrap">
