@@ -13,13 +13,11 @@ const Countdown = ({ expiryDate }) => {
     
       function countdownTimer(expiryDate) {
         if (expiryDate === null) {
-          return("")
+          return("null")
         }
         else {  
           let millisLeft = expiryDate - time;
-          // console.log(millisLeft)
-          
-          // console.log(hoursLeft)
+
           if (millisLeft < 0) {
             millisLeft = 0;
           }
@@ -35,27 +33,19 @@ const Countdown = ({ expiryDate }) => {
           let minutesText = Math.floor(minutesLeft) % 60;
           let hoursText = Math.floor(hoursLeft);
     
-          // if (hoursText.toString().length < 2) {
-          //   hoursText = hoursText.toString().padStart(2, '0')
-          // }
           if (minutesText.toString().length < 2) {
             minutesText = minutesText.toString().padStart(2, '0')
           }
           if (secondsText.toString().length < 2) {
             secondsText = secondsText.toString().padStart(2, '0')
           }
-          // console.log(hoursText)
-          // console.log(minutesText)
-          // console.log(secondsText)
-          
-          // countdownSeconds.innerHTML = secondsText
-          // countdownMinutes.innerHTML = minutesText
-          // countdownHours.innerHTML =  hoursText
           
           return(`${hoursText}h ${minutesText}m ${secondsText}s`)
         }
       }
-    
+    return (
+        <>{countdownTimer(expiryDate)}</>
+    );
 }
 
 export default Countdown;
