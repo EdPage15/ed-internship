@@ -9,7 +9,16 @@ import 'owl.carousel/dist/assets/owl.theme.default.css';
 
 // https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems
 
+let hoursText;
+let minutesText;
+let secondsText;
+let countdown = [];
 
+// const countdownMilliSeconds = document.querySelector('.countdown__millis')
+const countdownSeconds = document.querySelector('.countdown__seconds')
+const countdownMinutes = document.querySelector('.countdown__minutes')
+const countdownHours = document.querySelector('.countdown__hours')
+const nullMessage = document.querySelector('.de_countdown')
 
 const NewItems = () => {
   const [data, setData] = useState([])
@@ -34,44 +43,62 @@ const NewItems = () => {
     async function fetchNewItems () {
       const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems`)
       setData(data)
-      console.log(data)
+      // console.log(data)
     }
     fetchNewItems();
   }, []);
 
-  const countdownMilliSeconds = document.querySelector('.countdown__millis')
-  const countdownSeconds = document.querySelector('.countdown__seconds')
-  const countdownMinutes = document.querySelector('.countdown__minutes')
-  const countdownHours = document.querySelector('.countdown__hours')
-
-  function countdownTimer(nft.expiryDate) {
-    let millisElapsed = nft.expiryDate
-
-    let millisLeft = nft.expiryDate - millisElapsed
-    if (millisLeft < 0) {
-      millisleft = 0;
+  function countdownTimer(expiryDate) {
+    if (expiryDate === null) {
+      return("")
     }
-    let secondLeft = millisLeft / 1000
-    let minutesLeft = secondsLeft / 60
-    let hoursLeft = minutesLeft / 60
+    else {  
+      let millisLeft = expiryDate - Date.now();
+      // console.log(millisLeft)
+      
+      // console.log(hoursLeft)
+      if (millisLeft < 0) {
+        millisLeft = 0;
+      }
+      if (millisLeft === null) {
+        millisLeft = 0;
+      }
+      
+      let secondsLeft = millisLeft / 1000
+      let minutesLeft = secondsLeft / 60
+      let hoursLeft = minutesLeft / 60
 
-    let secondsText = Math.floor(secondsLeft) % 60;
-    let minutesText = Math.floor(minutesLeft);
-    let hoursText = Math.floor(hoursLeft);
+      let secondsText = Math.floor(secondsLeft) % 60;
+      let minutesText = Math.floor(minutesLeft) % 60;
+      let hoursText = Math.floor(hoursLeft);
 
-    if (hoursText.toString().length < 2) {
-      hoursText = hoursText.toString().padStart(2, '0')
+      // if (hoursText.toString().length < 2) {
+      //   hoursText = hoursText.toString().padStart(2, '0')
+      // }
+      if (minutesText.toString().length < 2) {
+        minutesText = minutesText.toString().padStart(2, '0')
+      }
+      if (secondsText.toString().length < 2) {
+        secondsText = secondsText.toString().padStart(2, '0')
+      }
+      // console.log(hoursText)
+      // console.log(minutesText)
+      // console.log(secondsText)
+      
+      // countdownSeconds.innerHTML = secondsText
+      // countdownMinutes.innerHTML = minutesText
+      // countdownHours.innerHTML =  hoursText
+      countdown[0] = hoursText
+      countdown[1] = "h"
+      countdown[2] = " "
+      countdown[3] = minutesText
+      countdown[4] = "m"
+      countdown[5] = " "
+      countdown[6] = secondsText
+      countdown[7] = "s"
+      
+      return(countdown)
     }
-    if (minutesText.toString().length < 2) {
-      minutesText = minutesText.toString().padStart(2, '0')
-    }
-    if (secondsText.toString().length < 2) {
-      secondsText = secondsText.toString().padStart(2, '0')
-    }
-    
-    countdownSeconds.innerHTML = secondsText;
-    countdownMinutes.innerHTML = minutesText;
-    countdownHours.innerHTML =  hoursText;
   }
 
   return (
@@ -100,11 +127,11 @@ const NewItems = () => {
                         <i className="fa fa-check"></i>
                       </Link>
                     </div>
-                    <div className="de_countdown" key={nft.expiryDate}>
-                      <span class="countdown__hours"></span>h:
-                      <span class="countdown__minutes"></span>m:
-                      <span class="countdown__seconds"></span>s
-                      <span class="countdown__millis"></span>
+                    <div className="de_countdown">
+                      {countdownTimer(nft.expiryDate)}
+                      <div className="countdown__hours"></div>
+                      <div className="countdown__minutes"></div>
+                      <div className="countdown__seconds"></div>
                     </div>
 
                     <div className="nft__item_wrap">
@@ -156,3 +183,9 @@ const NewItems = () => {
 };
 
 export default NewItems;
+
+
+// 1790809250091
+// 1790802050091
+// 1790805530091
+// 1790810330091
