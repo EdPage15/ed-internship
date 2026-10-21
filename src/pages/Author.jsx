@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from 'axios';
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
 import { Link } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 
-hi
-
 const Author = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    async function fetchAuthorData() {
+      const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=73855012`)
+      }
+    fetchAuthorData();
+  }, []);
+
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
@@ -28,7 +36,6 @@ const Author = () => {
                   <div className="de-flex-col">
                     <div className="profile_avatar">
                       <img src={AuthorImage} alt="" />
-
                       <i className="fa fa-check"></i>
                       <div className="profile_name">
                         <h4>
@@ -54,7 +61,6 @@ const Author = () => {
                   </div>
                 </div>
               </div>
-
               <div className="col-md-12">
                 <div className="de_tab tab_simple">
                   <AuthorItems />
