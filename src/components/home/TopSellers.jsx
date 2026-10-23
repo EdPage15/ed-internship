@@ -14,6 +14,8 @@ const TopSellers = () => {
     fetchTopSellers();
   }, []);
 
+  console.log(data.authorID);
+
   return (
     <section id="section-popular" className="pb-5">
       <div className="container">
@@ -29,7 +31,7 @@ const TopSellers = () => {
               {data.map((seller) => (
                 <li key={seller.id}>
                   <div className="author_list_pp">
-                    <Link to="/author">
+                    <Link to={`/author/${seller.authorId}`}>
                       <img
                         className="lazy pp-author"
                         src={seller.authorImage}
@@ -39,7 +41,9 @@ const TopSellers = () => {
                     </Link>
                   </div>
                   <div className="author_list_info">
-                    <Link to="/author">{seller.authorName}</Link>
+                    <Link to={`/author/${seller.authorId}`}>
+                      {seller.authorName}
+                    </Link>
                     <span>{seller.price} ETH</span>
                   </div>
                 </li>
