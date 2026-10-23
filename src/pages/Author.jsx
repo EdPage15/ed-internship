@@ -32,7 +32,7 @@ const Author = () => {
       setFollowersCount(data.followers);
     }
   }
-  console.log(followersCount);
+  
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
