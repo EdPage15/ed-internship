@@ -7,6 +7,8 @@ import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import Countdown from "./CountdownTimer";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 let hoursText;
 let minutesText;
@@ -15,6 +17,7 @@ let countdown = [];
 
 const NewItems = () => {
   const [data, setData] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
   const options = {
     responsive: {
       0: {
@@ -36,7 +39,7 @@ const NewItems = () => {
     async function fetchNewItems () {
       const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems`)
       setData(data)
-      
+      setIsLoading(false);
     }
     fetchNewItems();
   }, []);
@@ -65,13 +68,17 @@ const NewItems = () => {
                         data-bs-placement="top"
                         title="Creator: Monica Lucas"
                       >
-                        <img className="lazy" src={nft.authorImage} alt="" />
+                        {isLoading ? <Skeleton /> : <img className="lazy" src={nft.authorImage} alt="" />}
                         <i className="fa fa-check"></i>
                       </Link>
                     </div>
                     {nft.expiryDate && (
-                      <div className="de_countdown">
-                        <Countdown expiryDate={nft.expiryDate} />
+                      <div>
+                        {isLoading ? <Skeleton /> : 
+                          <div className="de_countdown">
+                            <Countdown expiryDate={nft.expiryDate} />
+                          </div>
+                        }
                       </div>
                     )}
                     <div className="nft__item_wrap">
@@ -94,21 +101,23 @@ const NewItems = () => {
                       </div>
 
                       <Link to={`/item-details/${nft.nftId}`}>
-                        <img
-                          src={nft.nftImage}
-                          className="lazy nft__item_preview"
-                          alt=""
-                        />
+                        {isLoading ? <Skeleton /> :
+                          <img
+                            src={nft.nftImage}
+                            className="lazy nft__item_preview"
+                            alt=""
+                          />
+                        }
                       </Link>
                     </div>
                     <div className="nft__item_info">
                       <Link to={`/item-details/${nft.nftId}`}>
-                        <h4>{nft.title}</h4>
+                        {isLoading ? <Skeleton /> : <h4>{nft.title}</h4>}
                       </Link>
-                      <div className="nft__item_price">{nft.price}</div>
+                      {isLoading ? <Skeleton /> : <div className="nft__item_price">{nft.price}</div>}
                       <div className="nft__item_like">
                         <i className="fa fa-heart"></i>
-                        <span>{nft.likes}</span>
+                        {isLoading ? <Skeleton /> : <span>{nft.likes}</span>}
                       </div>
                     </div>
                   </div>

@@ -5,10 +5,13 @@ import { useParams } from 'react-router-dom';
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 
 const HotCollections = () => {
   const [data, setData] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
   const options = {
     responsive: {
       0: {
@@ -31,7 +34,7 @@ const HotCollections = () => {
     async function fetchHotCollections () {
       const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections`)
       setData(data)
-      // console.log(data)
+      setIsLoading(false);
     }
     
     fetchHotCollections();
@@ -54,20 +57,20 @@ const HotCollections = () => {
                   <div className="nft_coll">
                     <div className="nft_wrap">
                       <Link to={`/item-details/${nft.nftId}`}>
-                        <img src={nft.nftImage} className="lazy img-fluid" alt="" />
+                        {isLoading ? <Skeleton /> : <img src={nft.nftImage} className="lazy img-fluid" alt="" />}
                       </Link>
                     </div>
                     <div className="nft_coll_pp">
                       <Link to={`/author/${nft.authorId}`}>
-                        <img className="lazy pp-coll" src={nft.authorImage} alt="" />
+                        {isLoading ? <Skeleton /> : <img className="lazy pp-coll" src={nft.authorImage} alt="" />}
                       </Link>
                       <i className="fa fa-check"></i>
                     </div>
                     <div className="nft_coll_info">
                       <Link to={`/item-details/${nft.nftId}`}>
-                        <h4>{nft.title}</h4>
+                        {isLoading ? <Skeleton /> : <h4>{nft.title}</h4>}
                       </Link>
-                      <span>ERC-{nft.code}</span>
+                      <span>{isLoading ? <Skeleton /> : `ERC-${nft.code}`}</span>
                     </div>
                   </div>
                 </div>

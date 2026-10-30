@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const TopSellers = () => {
   const [data, setData] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchTopSellers () {
       const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers`)
       setData(data)
+      setIsLoading(false)
       
     }
     fetchTopSellers();
@@ -32,19 +36,21 @@ const TopSellers = () => {
                 <li key={seller.id} data-aos="zoom-in">
                   <div className="author_list_pp">
                     <Link to={`/author/${seller.authorId}`}>
-                      <img
-                        className="lazy pp-author"
-                        src={seller.authorImage}
-                        alt=""
-                      />
+                      {isLoading ? <Skeleton /> : (
+                        <img
+                          className="lazy pp-author"
+                          src={seller.authorImage}
+                          alt=""
+                        />
+                      )}
                       <i className="fa fa-check"></i>
                     </Link>
                   </div>
                   <div className="author_list_info">
                     <Link to={`/author/${seller.authorId}`}>
-                      {seller.authorName}
+                      {isLoading ? <Skeleton /> : seller.authorName}
                     </Link>
-                    <span>{seller.price} ETH</span>
+                    <span>{isLoading ? <Skeleton /> : `${seller.price} ETH`}</span>
                   </div>
                 </li>
               ))}
