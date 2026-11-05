@@ -3,8 +3,6 @@ import axios from 'axios';
 import { useParams } from "react-router-dom";
 import EthImage from "../images/ethereum.svg";
 import { Link } from "react-router-dom";
-import AuthorImage from "../images/author_thumbnail.jpg";
-import nftImage from "../images/nftImage.jpg";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
