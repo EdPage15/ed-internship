@@ -5,6 +5,8 @@ import EthImage from "../images/ethereum.svg";
 import { Link } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 import nftImage from "../images/nftImage.jpg";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const ItemDetails = () => {
   useEffect(() => {
@@ -12,12 +14,14 @@ const ItemDetails = () => {
   }, []);
 
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { nftId } = useParams();
 
   useEffect(() => {
     async function fetchNftData() {
     const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`)
     setData(data);
+    setIsLoading(false);
     } 
     fetchNftData();
     
@@ -31,28 +35,30 @@ const ItemDetails = () => {
           <div className="container">
             <div className="row">
               <div className="col-md-6 text-center">
-                <img
-                  src={data.nftImage}
-                  className="img-fluid img-rounded mb-sm-30 nft-image"
-                  alt=""
-                />
+                {isLoading ? <Skeleton /> : (
+                  <img
+                    src={data.nftImage}
+                    className="img-fluid img-rounded mb-sm-30 nft-image"
+                    alt=""
+                  />
+                )}
               </div>
               <div className="col-md-6">
                 <div className="item_info">
-                  <h2>{data.name}</h2>
+                  {isLoading ? <Skeleton /> : <h2>{data.name}</h2>}
 
                   <div className="item_info_counts">
                     <div className="item_info_views">
                       <i className="fa fa-eye"></i>
-                      {data.views}
+                      {isLoading ? <Skeleton /> : data.views}
                     </div>
                     <div className="item_info_like">
                       <i className="fa fa-heart"></i>
-                      {data.likes}
+                      {isLoading ? <Skeleton /> : data.likes}
                     </div>
                   </div>
                   <p>
-                    {data.description}
+                    {isLoading ? <Skeleton /> : data.description}
                   </p>
                   <div className="d-flex flex-row">
                     <div className="mr40">
@@ -60,7 +66,7 @@ const ItemDetails = () => {
                       <div className="item_author">
                         <div className="author_list_pp">
                           <Link to={`/author/${data.authorId}`}>
-                            <img className="lazy" src={data.ownerImage} alt="" />
+                            {isLoading ? <Skeleton /> : <img className="lazy" src={data.ownerImage} alt="" />}
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
@@ -77,12 +83,14 @@ const ItemDetails = () => {
                       <div className="item_author">
                         <div className="author_list_pp">
                           <Link to={`/author/${data.authorId}`}>
-                            <img className="lazy" src={data.creatorImage} alt="" />
+                            {isLoading ? <Skeleton /> : <img className="lazy" src={data.creatorImage} alt="" />}
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to={`/author/${data.authorId}`}>{data.creatorName}</Link>
+                          <Link to={`/author/${data.authorId}`}>
+                            {isLoading ? <Skeleton /> : data.creatorName}
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -90,7 +98,7 @@ const ItemDetails = () => {
                     <h6>Price</h6>
                     <div className="nft-item-price">
                       <img src={EthImage} alt="" />
-                      <span>{data.price}</span>
+                      <span>{isLoading ? <Skeleton /> : data.price}</span>
                     </div>
                   </div>
                 </div>

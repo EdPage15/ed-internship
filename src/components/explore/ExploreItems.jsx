@@ -4,17 +4,21 @@ import { Link } from "react-router-dom";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import nftImage from "../../images/nftImage.jpg";
 import Countdown from "../home/CountdownTimer";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const ExploreItems = () => {
   const [data, setData] = useState([]);
   const [visibleCount, setVisibleCount] = useState(8);
   const [APIValue, setAPIValue] = useState(""); 
+  const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
     async function fetchExploreItems() {
       const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=${APIValue}`);
       setData(data);
       setVisibleCount(8); // Reset visible count when APIValue changes
+      setIsLoading(false);
     }
     fetchExploreItems();
   }, [APIValue]);
@@ -42,13 +46,17 @@ const ExploreItems = () => {
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
               >
-                <img className="lazy" src={nft.authorImage} alt="" />
+                {isLoading ? <Skeleton /> : <img className="lazy" src={nft.authorImage} alt="" />}
                 <i className="fa fa-check"></i>
               </Link>
             </div>
             {nft.expiryDate && (
-              <div className="de_countdown">
-                <Countdown expiryDate={nft.expiryDate} />
+              <div>
+                {isLoading ? <Skeleton /> : 
+                  <div className="de_countdown">
+                    <Countdown expiryDate={nft.expiryDate} />
+                  </div>
+                }
               </div>
             )}
 
@@ -71,17 +79,17 @@ const ExploreItems = () => {
                 </div>
               </div>
               <Link to={`/item-details/${nft.nftId}`}>
-                <img src={nft.nftImage} className="lazy nft__item_preview" alt="" />
+                {isLoading ? <Skeleton /> : <img src={nft.nftImage} className="lazy nft__item_preview" alt="" />}
               </Link>
             </div>
             <div className="nft__item_info">
               <Link to={`/item-details/${nft.nftId}`}>
-                <h4>{nft.title}</h4>
+                {isLoading ? <Skeleton /> : <h4>{nft.title}</h4>}
               </Link>
-              <div className="nft__item_price">{nft.price} ETH</div>
+              {isLoading ? <Skeleton /> : <div className="nft__item_price">{nft.price} ETH</div>}
               <div className="nft__item_like">
                 <i className="fa fa-heart"></i>
-                <span>{nft.likes}</span>
+                {isLoading ? <Skeleton /> : <span>{nft.likes}</span>}
               </div>
             </div>
           </div>
