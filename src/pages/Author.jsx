@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
-import { Link } from "react-router-dom";
-import AuthorImage from "../images/author_thumbnail.jpg";
 import { useParams } from "react-router-dom";
 
 const Author = () => {
@@ -17,9 +15,9 @@ const Author = () => {
       async function fetchAuthorData() {
       const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`)
       setData(data);
+      setFollowersCount(data.followers);
       } 
       fetchAuthorData();
-      setFollowersCount(data.followers);
   }, [authorId]);
 
   const handleClick = () => {
