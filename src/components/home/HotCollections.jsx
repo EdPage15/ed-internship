@@ -49,27 +49,27 @@ const HotCollections = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          {data.length > 0 && (
+          {isLoading ? (<Skeleton />) : (
             <OwlCarousel className="owl-theme" loop margin={20} nav lazyLoad={true} {...options}>
               {data.map((nft) => (
                 <div className="carousel__item" key={nft.code}>
                   <div className="nft_coll">
                     <div className="nft_wrap">
                       <Link to={`/item-details/${nft.nftId}`}>
-                        {isLoading ? <Skeleton /> : <img src={nft.nftImage} className="lazy img-fluid" alt="" />}
+                        <img src={nft.nftImage} className="lazy img-fluid" alt="" />
                       </Link>
                     </div>
                     <div className="nft_coll_pp">
                       <Link to={`/author/${nft.authorId}`}>
-                        {isLoading ? <Skeleton /> : <img className="lazy pp-coll" src={nft.authorImage} alt="" />}
+                        <img className="lazy pp-coll" src={nft.authorImage} alt="" />
                       </Link>
                       <i className="fa fa-check"></i>
                     </div>
                     <div className="nft_coll_info">
                       <Link to={`/item-details/${nft.nftId}`}>
-                        {isLoading ? <Skeleton /> : <h4>{nft.title}</h4>}
+                        <h4>{nft.title}</h4>
                       </Link>
-                      <span>{isLoading ? <Skeleton /> : `ERC-${nft.code}`}</span>
+                      <span>ERC-{nft.code}</span>
                     </div>
                   </div>
                 </div>

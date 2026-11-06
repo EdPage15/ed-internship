@@ -49,11 +49,10 @@ const NewItems = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          {data.length > 0 && (
-            <OwlCarousel className="owl-theme" loop margin={20} nav lazyLoad={true} {...options}>
-              {data.map((nft) => (
-                
-                  <div className="nft__item" key={nft.code}>
+            {isLoading ? (<Skeleton />) : (
+              <OwlCarousel className="owl-theme" loop margin={20} nav lazyLoad={true} {...options}>
+                {data.map((nft) => (
+                  <div className="nft__item" key={nft.id}>
                     <div className="author_list_pp">
                       <Link
                         to={`/author/${nft.authorId}`}
@@ -61,17 +60,15 @@ const NewItems = () => {
                         data-bs-placement="top"
                         title="Creator: Monica Lucas"
                       >
-                        {isLoading ? <Skeleton /> : <img className="lazy" src={nft.authorImage} alt="" />}
+                        <img className="lazy" src={nft.authorImage} alt="" />
                         <i className="fa fa-check"></i>
                       </Link>
                     </div>
                     {nft.expiryDate && (
                       <div>
-                        {isLoading ? <Skeleton /> : 
-                          <div className="de_countdown">
-                            <Countdown expiryDate={nft.expiryDate} />
-                          </div>
-                        }
+                        <div className="de_countdown">
+                          <Countdown expiryDate={nft.expiryDate} />
+                        </div>
                       </div>
                     )}
                     <div className="nft__item_wrap">
@@ -94,30 +91,27 @@ const NewItems = () => {
                       </div>
 
                       <Link to={`/item-details/${nft.nftId}`}>
-                        {isLoading ? <Skeleton /> :
-                          <img
-                            src={nft.nftImage}
-                            className="lazy nft__item_preview"
-                            alt=""
-                          />
-                        }
+                        <img
+                          src={nft.nftImage}
+                          className="lazy nft__item_preview"
+                          alt=""
+                        />
                       </Link>
                     </div>
                     <div className="nft__item_info">
                       <Link to={`/item-details/${nft.nftId}`}>
-                        {isLoading ? <Skeleton /> : <h4>{nft.title}</h4>}
+                        <h4>{nft.title}</h4>
                       </Link>
-                      {isLoading ? <Skeleton /> : <div className="nft__item_price">{nft.price}</div>}
+                      <div className="nft__item_price">{nft.price}</div>
                       <div className="nft__item_like">
                         <i className="fa fa-heart"></i>
-                        {isLoading ? <Skeleton /> : <span>{nft.likes}</span>}
+                        <span>{nft.likes}</span>
                       </div>
                     </div>
                   </div>
-                
-              ))}
-            </OwlCarousel>
-          )}
+                ))}
+              </OwlCarousel>
+            )} 
         </div>
       </div>
     </section>
