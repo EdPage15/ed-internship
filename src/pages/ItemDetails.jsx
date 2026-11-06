@@ -63,13 +63,13 @@ const ItemDetails = () => {
                       <h6>Owner</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to={`/author/${data.authorId}`}>
+                          <Link to={`/author/${data.ownerId}`}>
                             {isLoading ? <Skeleton /> : <img className="lazy" src={data.ownerImage} alt="" />}
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to={`/author/${data.authorId}`}>{data.authorName}</Link>
+                          <Link to={`/author/${data.ownerId}`}>{data.ownerName}</Link>
                         </div>
                       </div>
                     </div>
@@ -80,13 +80,13 @@ const ItemDetails = () => {
                       <h6>Creator</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to={`/author/${data.authorId}`}>
+                          <Link to={`/author/${data.ownerId}`}>
                             {isLoading ? <Skeleton /> : <img className="lazy" src={data.creatorImage} alt="" />}
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to={`/author/${data.authorId}`}>
+                          <Link to={`/author/${data.ownerId}`}>
                             {isLoading ? <Skeleton /> : data.creatorName}
                           </Link>
                         </div>

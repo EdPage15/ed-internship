@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import axios from 'axios';
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
@@ -6,14 +6,20 @@ import { useParams } from "react-router-dom";
 
 const Author = () => {
   const [data, setData] = useState([]);
-  const { authorId } = useParams();
+  const { authorId, ownerId } = useParams();
   const [buttonText, setButtonText] = useState("Follow");
   const [isFollowing, setIsFollowing] = useState(false);
   const [followersCount, setFollowersCount] = useState(0);
+
+  const id = authorId || ownerId;
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+  }, []);
   
   useEffect(() => {
       async function fetchAuthorData() {
-      const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`)
+      const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${id}`)
       setData(data);
       setFollowersCount(data.followers);
       } 
